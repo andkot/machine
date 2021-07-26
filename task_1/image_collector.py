@@ -33,22 +33,33 @@ output_path = args.o
 key = args.k
 num = args.n
 
-print(input_path)
-print(output_path)
-print(key)
-
-def convert(input_path, output_path, key, num):
+def createDir(path):
     if not os.path.exists(output_path):
         os.mkdir(output_path)
+    return
+
+
+def saveImg(imgs, output_path):
+    counter = 1
+    for img in imgs:
+        myfile = output_path + "/" + str(counter) + '.ppm'
+        img.save(myfile)  
+        counter+=1
+
+
+def showImg(img):
+    pyplot.imshow(img)
+    pyplot.show()
+
+
+def convert(input_path, output_path, key, num):
+    createDir(output_path)
     pages = convert_from_path(input_path)
     if key == 'save':
-        counter = 1
-        for page in pages:
-            myfile = output_path + "/" + str(counter) + '.ppm'
-            page.save(myfile)  
-            counter+=1
+        saveImg(pages, output_path)
     elif key == 'show':
-        pyplot.imshow(pages[num])
-        pyplot.show()
+        showImg(pages[num])
 
-convert(input_path, output_path, key, num)
+
+if __name__ == '__main__':
+    convert(input_path, output_path, key, num)
